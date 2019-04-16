@@ -97,7 +97,7 @@ saqueoConCorazon unTesoro = False
 saqueoEspecifico :: Nombre -> Tesoro -> Bool     --tiene prototipo distinto pero como la voy a aplicar parcialmente para que quede Tesoro -> Bool
 saqueoEspecifico nombreTesoro (nombre,valor) = (==nombreTesoro) nombre
  
-saqueoComplejo :: Nombre -> Tesoro -> Bool     -- idem saqueo específico
+saqueoComplejo :: Nombre -> Tesoro -> Bool     -- idem saqueo especÃ­fico
 saqueoComplejo nombreTesoro (nombre,valor) = ((==nombreTesoro) nombre) || (esTesoroValioso (nombre,valor))
 
 agregarTesoro :: Bool->Botin->Tesoro->Botin
@@ -119,7 +119,7 @@ saquear (nombre,botin) formaDeSaqueo unTesoro = (nombre, agregarTesoro (formaDeS
 --saquear (nombre,botin) (saqueoComplejo "") unTesoro = (nombre,botin ++ (filter (saqueoComplejo palabraclave) [unTesoro]))
 
 
--- NAVEGANDO LOS SIETE MARES
+--Navegando los mares
 
 -- funcion para incorporar pirata a tripulacion
 
