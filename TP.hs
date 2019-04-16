@@ -103,8 +103,8 @@ agregarTesoro :: Bool->Botin->Tesoro->Botin
 agregarTesoro True botin tesoro = tesoro:botin
 agregarTesoro False botin tesoro = botin
 
-saquear :: Pirata -> (Tesoro -> Bool) -> Tesoro -> Pirata
-saquear (nombre,botin) formaDeSaqueo unTesoro = (nombre, agregarTesoro (formaDeSaqueo unTesoro) botin unTesoro)
+saquear :: (Tesoro -> Bool) -> Tesoro -> Pirata -> Pirata
+saquear formaDeSaqueo unTesoro (nombre,botin) = (nombre, agregarTesoro (formaDeSaqueo unTesoro) botin unTesoro)
 
 --saquear (nombre,botin) formaDeSaqueo unTesoro = (nombre, botin ++ (filter formaDeSaqueo [unTesoro]))
 
@@ -138,18 +138,7 @@ anclarEnIsla (nombreIsla,tesoro) (nombreBarco, tripu, saqueo) = (nombreBarco, ma
 -- atacar una ciudad
 
 atacarCiudad :: Barco -> Ciudad -> Barco
-atacarCiudad (nombreBarco, tripu, saqueo) (nombreCiudad, tesoros) = (nombreBarco, zipWith (saquear saqueo) tripu tesoros, saqueo)
-
---Abordar barco en altamar
-
-tesorosDeUnPirata :: Pirata -> Botin
-tesorosDeUnPirata (n,botin) = botin
-
-tesorosDeUnBarco :: Barco -> Botin
-tesorosDeUnBarco (nombre,tripu,saqueo) = map (tesorosDeUnPirata) tripu
- 
-abordarOtroBarco :: Barco->Barco->Barco
-abordarOtroBarco (nAtacante,tAtacante,sAtacante) (nAtacado,tAtacado,sAtacado) = (nAtacante, zipWith (saquear saqueo) tripu tesoros )
+atacarCiudad (nombreBarco, tripu, saqueo) (nombreCiudad, tesoros) = (nombreBarco, zipWith (saquear saqueo) tesoros tripu , saqueo)
 
 
 
