@@ -1,4 +1,3 @@
-
 type Nombre = [Char]
 type Valor = Integer
 type Tesoro = (Nombre ,Valor)
