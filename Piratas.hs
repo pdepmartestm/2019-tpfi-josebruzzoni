@@ -73,10 +73,10 @@ esTesoroValioso :: Tesoro -> Bool --Determina si un tesoro es valioso (valor > 1
 esTesoroValioso (nombre,valor) = valor > 100
 
 noEsTesoroValioso :: Tesoro -> Bool --Determina si un tesoro NO es valioso (valioso implica que: valor > 100)
-noEsTesoroValioso (nombre,valor) = valor <= 100
+noEsTesoroValioso unTesoro = not (esTesoroValioso unTesoro)
 
 perderTesorosValiosos :: Pirata -> Pirata --Muestra al pirata sin los tesoros valiosos
-perderTesorosValiosos (nombre,botin) = (nombre, filter noEsTesoroValioso botin)
+perderTesorosValiosos (nombre,botin) = (nombre, filter (noEsTesoroValioso) botin)
 
 comparoNombreDelTesoro :: Tesoro -> Tesoro -> Bool
 comparoNombreDelTesoro (nombre1,valor1) (nombre2,valor2) = nombre1 /= nombre2
@@ -98,14 +98,16 @@ saqueoEspecifico :: Nombre -> Tesoro -> Bool     --tiene prototipo distinto pero
 saqueoEspecifico nombreTesoro (nombre,valor) = (==nombreTesoro) nombre
  
 saqueoComplejo :: Nombre -> Tesoro -> Bool     -- idem saqueo específico
-saqueoComplejo nombreTesoro (nombre,valor) = ((==nombreTesoro) nombre) || (esTesoroValioso (nombre,valor))
+saqueoComplejo nombreTesoro unTesoro = (saqueoValioso unTesoro) || (saqueoEspecifico nombreTesoro unTesoro)
 
-agregarTesoro :: Bool->Botin->Tesoro->Botin
-agregarTesoro True botin tesoro = tesoro:botin
-agregarTesoro False botin tesoro = botin
+agregarTesoro :: (Tesoro->Bool)->Botin->Tesoro->Botin
+agregarTesoro formaDeSaqueo unBotin unTesoro
+    | formaDeSaqueo unTesoro = unTesoro:unBotin
+    | otherwise = unBotin
+    
 
 saquear :: (Tesoro -> Bool) -> Tesoro -> Pirata -> Pirata
-saquear formaDeSaqueo unTesoro (nombre,botin) = (nombre, agregarTesoro (formaDeSaqueo unTesoro) botin unTesoro)
+saquear formaDeSaqueo unTesoro (nombre,botin) = (nombre, agregarTesoro formaDeSaqueo botin unTesoro)
 
 --saquear (nombre,botin) formaDeSaqueo unTesoro = (nombre, botin ++ (filter formaDeSaqueo [unTesoro]))
 
